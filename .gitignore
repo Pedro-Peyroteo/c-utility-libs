@@ -1,0 +1,45 @@
+# Build output.
+build/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.lib
+
+# VS Code / Editor settings.
+.vscode/
+*.code-workspace
+
+# OS crap.
+.DS_Store
+Thumbs.db
+
+# Logs / temp files
+*.log
+*.tmp
+*.temp
+
+# GCC/Clang artifacts.
+*.gcda
+*.gcno
+*.gcov
+
+# Backup files.
+*~
+*.bak
+*.swp
+*.swo
+
+# Windows MinGW specific.
+*.stackdump
+
+# CMake / alternative tools (future-proof).
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile.in
+configure
+config.log
+config.status
