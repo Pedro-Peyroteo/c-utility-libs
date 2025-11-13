@@ -92,6 +92,48 @@ DListNode *dlist_find(DList *list, void *target, int (*cmp_fn)(void*, void*));
 */
 void dlist_insert_priority(DList *list, void *data, int priority);
 
+// Helper utilities
+
+/*
+    Returns the data stored at the head node.
+    Does NOT remove anything — basically a read-only version of pop_front.
+*/
+void *dlist_peek_front(DList *list);
+
+/*
+    Same idea but for the tail.
+    Useful when you need to read the last element without touching the list.
+*/
+void *dlist_peek_back(DList *list);
+
+/*
+    Clean and readable way to check if the list is empty.
+    Equivalent to (list->size == 0), but nicer to write and read.
+*/
+bool dlist_is_empty(DList *list);
+
+/*
+    Returns the number of elements currently stored in the list.
+    Just exposes the internal size field.
+*/
+size_t dlist_size(DList *list);
+
+/*
+    Removes all nodes inside the list but keeps the list structure alive.
+    Perfect when you want to reuse the same DList instance without reallocating it.
+    
+    free_fn:
+        Same logic as destroy — if your data is dynamically allocated,
+        pass a free function. If not, pass NULL.
+*/
+void dlist_clear(DList *list, void (*free_fn)(void*));
+
+/*
+    In priority mode, the highest priority element is always at the head.
+    So this just returns head->data, but spelled out for clarity and intent.
+*/
+void *dlist_peek_highest_priority(DList *list);
+
 /*
     Simple foreach macro to iterate nodes cleanly.
     Example:

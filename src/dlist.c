@@ -171,6 +171,78 @@ void dlist_remove_node(DList *list, Node *node, void (*free_fn)(void*)) {
 }
 
 /*
+    Returns the data at the head.
+    Read-only version of pop_front — nothing is removed.
+*/
+void *dlist_peek_front(DList *list) {
+    if (!list->head)
+        return NULL;
+    return list->head->data;
+}
+
+/*
+    Same thing but for the tail node.
+*/
+void *dlist_peek_back(DList *list) {
+    if (!list->tail)
+        return NULL;
+    return list->tail->data;
+}
+
+/*
+    Simple helper to check if the list is empty.
+    Reads cleaner than comparing size manually.
+*/
+bool dlist_is_empty(DList *list) {
+    return (list->size == 0);
+}
+
+/*
+    Returns the number of nodes in the list.
+    Just a clean wrapper around the internal size field.
+*/
+size_t dlist_size(DList *list) {
+    return list->size;
+}
+
+/*
+    Clears the list contents but keeps the list structure alive.
+    Basically a "reset" button for the list.
+    Useful if the program reuses the same list multiple times.
+
+    free_fn:
+        optional function to free each node’s data.
+        Set to NULL if data doesn't need to be freed.
+*/
+void dlist_clear(DList *list, void (*free_fn)(void*)) {
+    Node *curr = list->head;
+
+    while (curr) {
+        Node *next = curr->next;
+
+        if (free_fn)
+            free_fn(curr->data);
+
+        free(curr);
+        curr = next;
+    }
+
+    list->head = NULL;
+    list->tail = NULL;
+    list->size = 0;
+}
+
+/*
+    In priority mode, the head always contains the highest priority element.
+    This simply exposes that fact in a clean and readable function.
+*/
+void *dlist_peek_highest_priority(DList *list) {
+    if (!list->head)
+        return NULL;
+    return list->head->data;
+}
+
+/*
     Linear search.
     Uses user-provided comparator so list works with any data type.
 */
